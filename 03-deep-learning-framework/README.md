@@ -1,10 +1,6 @@
 # Deep Learning Framework
 
-This lab demonstrate how SageMaker can support commnonly use deep learning framework. PyTorch is used as examples.
+This notebook shows how you can:
 
-- Estimated duration: 60mins
-
-## Key Concepts
-
-- Using SageMaker Deep Learning Framework to deploy model
-- Bring your own training script
+- Us SageMaker Deep Learning Framework to deploy Pytorch model
+- Bring your own training script and deploy on SageMaker infrastruture

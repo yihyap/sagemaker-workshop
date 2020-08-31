@@ -1,7 +1,5 @@
 # • Bring your own container to SageMaker
 
-- Estimated duration: 60mins
+This notebook shows how you can:
 
-## Key Concepts
-
-- Train a model using a custom container with addtional libray/package on SageMaker
+- Train a model using a custom container with addtional library/package on SageMaker

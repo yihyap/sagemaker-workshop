@@ -1,8 +1,6 @@
 # Train, Tune and Deploy model using SageMaker Built-in Algorithm
 
-- Estimated duration: 30mins
+This notebook shows how you can:
 
-## Key Concepts
-
-- Train model on SageMaker infrastructure
+- Train, build model on SageMaker infrastructure
 - Deploy model as real time Endpoint

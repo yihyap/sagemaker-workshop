@@ -1,7 +1,6 @@
 # Hyper Parameters Optimization (HPO)
 
-- Estimated duration: 30mins
-
-## Key Concepts
+This notebook shows how you can:
 
 - Perform hyper parameters optimization using SageMaker
+- Analyze HPO results
