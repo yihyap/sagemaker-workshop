@@ -12,6 +12,10 @@ The objective of the workshop is to demonstrate SageMaker capability for machine
 
 ![image](images/create-role.png)
 
+- Fill in Git Repository
+
+<img src="images/git-repo.png"/>
+
 - Launch Jupyter Lab once notebook is ready
 
 ![image](images/launch-jupyterlab.png)
