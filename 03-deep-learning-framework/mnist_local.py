@@ -41,6 +41,7 @@ def _get_train_data_loader(batch_size, training_dir, is_distributed, **kwargs):
     logger.info("Get train data loader")
     dataset = datasets.MNIST(
         training_dir,
+        download=True,
         train=True,
         transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
     )
@@ -55,6 +56,7 @@ def _get_test_data_loader(test_batch_size, training_dir, **kwargs):
     return torch.utils.data.DataLoader(
         datasets.MNIST(
             training_dir,
+            download=True,
             train=False,
             transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
@@ -74,30 +76,13 @@ def _average_gradients(model):
 
 
 def train(args):
-    # Check for multiple hosts
-    is_distributed = len(args.hosts) > 1 and args.backend is not None
-    logger.debug("Distributed training - {}".format(is_distributed))
-    use_cuda = args.num_gpus > 0
-    logger.debug("Number of gpus available - {}".format(args.num_gpus))
+    is_distributed = False
+    use_cuda = torch.cuda.is_available()
+
     # Configure PyTorch parallel data loading, allocating our host arrays in pinned memory
     # https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/
     kwargs = {"num_workers": 1, "pin_memory": True} if use_cuda else {}
     device = torch.device("cuda" if use_cuda else "cpu")
-
-    if is_distributed:
-        # Initialize the distributed environment.
-        # https://pytorch.org/tutorials/intermediate/ddp_tutorial.html
-        world_size = len(args.hosts)
-        os.environ["WORLD_SIZE"] = str(world_size)
-        host_rank = args.hosts.index(args.current_host)
-        os.environ["RANK"] = str(host_rank)
-        dist.init_process_group(backend=args.backend, rank=host_rank, world_size=world_size)
-        logger.info(
-            "Initialized the distributed environment: '{}' backend on {} nodes. ".format(
-                args.backend, dist.get_world_size()
-            )
-            + "Current host rank is {}. Number of gpus: {}".format(dist.get_rank(), args.num_gpus)
-        )
 
     # set the seed for generating random numbers
     torch.manual_seed(args.seed)
@@ -124,12 +109,7 @@ def train(args):
     )
 
     model = Net().to(device)
-    if is_distributed and use_cuda:
-        # multi-machine multi-gpu case
-        model = torch.nn.parallel.DistributedDataParallel(model)
-    else:
-        # single-machine multi-gpu case or single-machine or multi-machine cpu case
-        model = torch.nn.DataParallel(model)
+    model = torch.nn.DataParallel(model)
 
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
@@ -141,9 +121,6 @@ def train(args):
             output = model(data)
             loss = F.nll_loss(output, target)
             loss.backward()
-            if is_distributed and not use_cuda:
-                # average gradients manually for multi-machine cpu case only
-                _average_gradients(model)
             optimizer.step()
             if batch_idx % args.log_interval == 0:
                 logger.info(
@@ -156,7 +133,7 @@ def train(args):
                     )
                 )
         test(model, test_loader, device)
-    save_model(model, args.model_dir)
+    save_model(model, "./")
 
 
 def test(model, test_loader, device):
@@ -204,7 +181,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--test-batch-size", type=int, default=1000, metavar="N", help="input batch size for testing (default: 1000)"
     )
-    parser.add_argument("--epochs", type=int, default=10, metavar="N", help="number of epochs to train (default: 10)")
+    parser.add_argument("--epochs", type=int, default=6, metavar="N", help="number of epochs to train (default: 10)")
     parser.add_argument("--lr", type=float, default=0.01, metavar="LR", help="learning rate (default: 0.01)")
     parser.add_argument("--momentum", type=float, default=0.5, metavar="M", help="SGD momentum (default: 0.5)")
     parser.add_argument("--seed", type=int, default=1, metavar="S", help="random seed (default: 1)")
@@ -221,12 +198,6 @@ if __name__ == "__main__":
         default=None,
         help="backend for distributed training (tcp, gloo on cpu and gloo, nccl on gpu)",
     )
-
-    # Container environment
-    parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
-    parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
-    parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
-    parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
-    parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
+    parser.add_argument("--data-dir", type=str, default="./data")
 
     train(parser.parse_args())
