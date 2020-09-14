@@ -1,4 +1,4 @@
-# • Bring your own container to SageMaker
+# Bring your own container to SageMaker
 
 This notebook shows how you can:
 

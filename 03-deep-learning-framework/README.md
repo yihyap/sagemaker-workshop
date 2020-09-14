@@ -8,9 +8,3 @@ This notebook shows how you can:
 - Bring your own training script and deploy on SageMaker infrastruture
 
 For more information about the PyTorch in SageMaker, please visit [sagemaker-pytorch-containers](https://github.com/aws/sagemaker-pytorch-containers) and [sagemaker-python-sdk](https://github.com/aws/sagemaker-python-sdk) github repositories.
-
-## Reference
-
-PyTorch performance tuning:
-
-- <https://www.youtube.com/watch?v=9mS1fIYj1So>
