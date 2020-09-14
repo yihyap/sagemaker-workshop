@@ -2,26 +2,32 @@
 
 The objective of the workshop is to demonstrate SageMaker capability for machine learning developer to build, train and deploy model at scale.
 
+## Region
+
+- Make sure your region is set to Singapore (ap-southeast-1) on the console
+
+![image](images/region.png)
+
 ## Create Notebook
 
-- Key in the name and instance type, leave other settings as default
+- Step 1: Key in the name and instance type, leave other settings as default
 
 ![image](images/create-notebook.png)
 
-- Create a new SageMaker role. Select any S3 bucket for this demo purpose
+- Step 2a: Select "Create a new role".
+
+![image](images/new-role.png)
+
+- Step 2b: Select any S3 bucket for this demo purpose.
 
 ![image](images/create-role.png)
 
-- Fill in Git Repository
+- Step 3: Fill in Git Repository.
 
 <img src="images/git-repo.png"/>
 
-- Launch Jupyter Lab once notebook is ready
+## Launch Jupyter Lab
+
+You can launch the notebook by clicking "Open JupyterLab" once the status is in service
 
 ![image](images/launch-jupyterlab.png)
-
-## Additional IAM Roles
-
-You may need additional IAM roles depending on AWS Services that you are accessing. You can go to IAM service, select Role on the left menu and add the necessary permission to the newly created sagemaker
-
-![image](images/attach-policy.png)
