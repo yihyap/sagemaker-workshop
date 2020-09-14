@@ -20,7 +20,7 @@ Before you begin, please follow the steps below to launch jupyterlab.
 
 ![image](images/new-role.png)
 
-- Step 2b: Select any S3 bucket for this demo purpose.
+- Step 2b: Select "Any S3 Bucket" for this demo purpose.
 
 ![image](images/create-role.png)
 
