@@ -28,6 +28,10 @@ Before you begin, please follow the steps below to launch jupyterlab.
 
 <img src="images/git-repo.png"/>
 
+- Setp 4: Click “Create notebook instance” to create the notebook
+
+<img src="images/click-create-notebook.png"/>
+
 ## Launch Jupyter Lab
 
 You can launch the notebook by clicking "Open JupyterLab" once the status is in service
