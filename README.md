@@ -2,6 +2,8 @@
 
 The objective of the workshop is to demonstrate SageMaker capability for machine learning developer to build, train and deploy model at scale.
 
+Before you begin, please follow the steps below to launch jupyterlab.
+
 ## Region
 
 - Make sure your region is set to Singapore (ap-southeast-1) on the console
