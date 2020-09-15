@@ -12,7 +12,7 @@ Before you begin, please follow the steps below to launch jupyterlab.
 
 ## Create Notebook
 
-- Step 1: Key in the name and instance type, leave other settings as default
+- Step 1: Key in the name and instance type (ml.t2.large), leave other settings as default
 
 ![image](images/create-notebook.png)
 
