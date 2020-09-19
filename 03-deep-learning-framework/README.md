@@ -4,7 +4,7 @@ Just like with those frameworks, now you can write your PyTorch script like you 
 
 This notebook shows how you can:
 
-- Us SageMaker Deep Learning Framework to deploy Pytorch model
+- Use SageMaker Deep Learning Framework to deploy Pytorch model
 - Bring your own training script and deploy on SageMaker infrastruture
 
 For more information about the PyTorch in SageMaker, please visit [sagemaker-pytorch-containers](https://github.com/aws/sagemaker-pytorch-containers) and [sagemaker-python-sdk](https://github.com/aws/sagemaker-python-sdk) github repositories.
